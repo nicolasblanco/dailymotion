@@ -1,6 +1,8 @@
 # Dailymotion
 
-TODO: Write a gem description
+Ruby bindings for the [Dailymotion Graph API](http://www.dailymotion.com/doc/api/graph-api.html).
+
+To authenticate your users with Dailymotion, I suggest you to use my [Omniauth Dailymotion Strategy](https://github.com/slainer68/omniauth-dailymotion).
 
 ## Installation
 
@@ -18,7 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Get the list of the authenticated user videos:
+
+    daily_api = Dailymotion::API.new("API_TOKEN")
+    resp = daily_api.get_connections("user", "me", "videos")
+
+    resp.body
 
 ## Contributing
 

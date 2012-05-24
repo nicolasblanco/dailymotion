@@ -14,4 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "dailymotion"
   gem.require_paths = ["lib"]
   gem.version       = Dailymotion::VERSION
+
+  gem.add_runtime_dependency "faraday"
+  gem.add_runtime_dependency "hashie"
+  gem.add_runtime_dependency "faraday_middleware"
 end
