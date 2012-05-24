@@ -27,6 +27,22 @@ Get the list of the authenticated user videos:
 
     resp.body
 
+## Upload a video
+
+First obtain an 'upload' URL :
+
+    req = daily_api.get_object "file", "upload"
+    url = req.body.upload_url
+
+Then send a file to this URL, for example:
+
+    req = daily_api.upload_file "video.m4v", url
+    uploaded_file_url = req.body.url
+
+Then post the video to Dailymotion :
+
+    req = daily_api.post_video(uploaded_file_url)
+
 ## Contributing
 
 1. Fork it

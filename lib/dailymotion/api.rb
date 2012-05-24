@@ -6,8 +6,8 @@ module Dailymotion
       @token = token
       @faraday = Faraday.new(:url => 'https://api.dailymotion.com') do |builder|
         builder.use Dailymotion::FaradayMiddleware::OAuth2, @token
-        builder.use Faraday::Response::Logger     # log the request to STDOUT
-        builder.adapter Faraday.default_adapter     # make http requests with Net::HTTP
+        builder.use Faraday::Response::Logger
+        builder.adapter Faraday.default_adapter
 
         builder.use ::FaradayMiddleware::Mashify
         builder.use ::FaradayMiddleware::ParseJson
@@ -36,6 +36,22 @@ module Dailymotion
 
     def post_video(url)
       post_object("me", "videos", :url => url)
+    end
+
+    def upload_file(filepath, url)
+      faraday = Faraday.new do |builder|
+        builder.use Faraday::Request::Multipart
+        builder.use Faraday::Request::UrlEncoded
+
+        builder.adapter Faraday.default_adapter
+
+        builder.use ::FaradayMiddleware::Mashify
+        builder.use ::FaradayMiddleware::ParseJson
+      end
+
+      payload = { :file => Faraday::UploadIO.new(filepath, "application/octet-stream") }
+
+      faraday.post url, payload
     end
   end
 end
