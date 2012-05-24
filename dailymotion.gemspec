@@ -4,9 +4,9 @@ require File.expand_path('../lib/dailymotion/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["slainer68"]
   gem.email         = ["slainer68@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Dailymotion Open Graph API for Ruby}
+  gem.summary       = %q{Dailymotion Open Graph API for Ruby}
+  gem.homepage      = "https://github.com/slainer68/dailymotion"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
