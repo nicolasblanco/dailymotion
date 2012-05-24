@@ -1,5 +1,5 @@
 require "faraday"
 require "faraday_middleware"
 require "dailymotion/version"
-require "dailymotion/faraday/oauth2_middleware"
+require "dailymotion/faraday_middleware/oauth2"
 require "dailymotion/api"
