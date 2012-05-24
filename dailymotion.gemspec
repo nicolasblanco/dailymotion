@@ -18,4 +18,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "faraday"
   gem.add_runtime_dependency "hashie"
   gem.add_runtime_dependency "faraday_middleware"
+
+  gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rspec', '~> 2.10.0'
 end

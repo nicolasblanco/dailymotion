@@ -14,15 +14,17 @@ module Dailymotion
       end
     end
 
-    def get_object(object, id)
+    def get_object(object, id, params = {})
       @faraday.get do |req|
         req.url "/#{object}/#{id}"
+        req.params = params
       end
     end
 
-    def get_connection(object, id, connection)
+    def get_connection(object, id, connection, params = {})
       @faraday.get do |req|
         req.url "/#{object}/#{id}/#{connection}"
+        req.params = params
       end
     end
     alias_method :get_connections, :get_connection
