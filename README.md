@@ -2,6 +2,8 @@
 
 Ruby bindings for the [Dailymotion Graph API](http://www.dailymotion.com/doc/api/graph-api.html).
 
+Note : this gem is unofficial and is not endorsed in any way by Dailymotion.
+
 To authenticate your users with Dailymotion, I suggest you to use my [Omniauth Dailymotion Strategy](https://github.com/slainer68/omniauth-dailymotion).
 
 ## Installation
