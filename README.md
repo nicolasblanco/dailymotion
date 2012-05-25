@@ -1,4 +1,6 @@
-# Dailymotion
+# Dailymotion [![Build Status](https://secure.travis-ci.org/slainer68/dailymotion.png?branch=master)][travis] [![Dependency Status](https://gemnasium.com/slainer68/dailymotion.png?travis)][gemnasium]
+[travis]: http://travis-ci.org/slainer68/dailymotion
+[gemnasium]: https://gemnasium.com/slainer68/dailymotion
 
 Ruby bindings for the [Dailymotion Graph API](http://www.dailymotion.com/doc/api/graph-api.html).
 
