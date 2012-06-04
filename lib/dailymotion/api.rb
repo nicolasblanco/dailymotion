@@ -66,7 +66,7 @@ module Dailymotion
     def refresh_token!
       raise StandardError, "client_id, client_secret and refresh_token in options hash are mandatory" unless options[:client_id] && options[:client_secret] && options[:refresh_token]
 
-      refresh_request = @faraday_post.post "#{API_BASE_URL}/oauth/token", { grant_type: "refresh_token", client_id: @options[:client_id], client_secret: @options[:client_secret], refresh_token: @options[:refresh_token] }
+      refresh_request = @faraday_post.post "#{API_BASE_URL}/oauth/token", { :grant_type => "refresh_token", :client_id => @options[:client_id], :client_secret => @options[:client_secret], :refresh_token => @options[:refresh_token] }
       @options[:token] = refresh_request.body.access_token
 
       set_faradays
