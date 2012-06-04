@@ -75,7 +75,7 @@ describe Dailymotion::API do
       it "should refresh the token" do
         @api = Dailymotion::API.new(:client_id => "pipo", :client_secret => "molo", :refresh_token => "ahah")
 
-        response_mock = mock(:faraday, body: Hashie::Mash.new(:access_token => "new_token"))
+        response_mock = mock(:faraday, :body => Hashie::Mash.new(:access_token => "new_token"))
         @api.faraday_post.should_receive(:post).and_return(response_mock)
         @api.should_receive(:set_faradays).once
 
