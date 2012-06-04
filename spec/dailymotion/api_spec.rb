@@ -3,14 +3,14 @@ require "dailymotion"
 require "pry"
 
 describe Dailymotion::API do
-  it "should be initialized with a token" do
-    @api = Dailymotion::API.new("ABCD")
+  it "should be initialized with an options hash" do
+    @api = Dailymotion::API.new(token: "ABCD")
 
-    @api.token.should eq("ABCD")
+    @api.options[:token].should eq("ABCD")
   end
 
   describe "with a token" do
-    subject { Dailymotion::API.new("ABCD") }
+    subject { Dailymotion::API.new(token: "ABCD") }
 
     describe "#get_object" do
       it "should get object" do
@@ -60,6 +60,27 @@ describe Dailymotion::API do
         faraday_mock.should_receive(:post).and_return({})
 
         subject.upload_file("pipomolo.m4v", "http://pipomolo.com")
+      end
+    end
+  end
+
+  describe "#refresh_token!" do
+    it "should fail if client_id, client_secret or refresh_token are not set" do
+      @api = Dailymotion::API.new(token: "ABCD")
+
+      expect { @api.refresh_token! }.to raise_error(StandardError)
+    end
+
+    describe "with all options" do
+      it "should refresh the token" do
+        @api = Dailymotion::API.new(client_id: "pipo", client_secret: "molo", refresh_token: "ahah")
+
+        response_mock = mock(:faraday, body: Hashie::Mash.new(access_token: "new_token"))
+        @api.faraday_post.should_receive(:post).and_return(response_mock)
+        @api.should_receive(:set_faradays).once
+
+        @api.refresh_token!
+        @api.options[:token].should eq("new_token")
       end
     end
   end

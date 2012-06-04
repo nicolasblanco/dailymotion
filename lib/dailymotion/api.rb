@@ -1,12 +1,29 @@
 module Dailymotion
   class API
-    attr_accessor :token, :faraday
+    API_BASE_URL = 'https://api.dailymotion.com'
+    attr_accessor :options
+    attr_reader :faraday, :faraday_post
 
-    def initialize(token)
-      @token = token
-      @faraday = Faraday.new(:url => 'https://api.dailymotion.com') do |builder|
-        builder.use Dailymotion::FaradayMiddleware::OAuth2, @token
+    def initialize(opts = {})
+      @options = opts
+
+      set_faradays
+    end
+
+    def set_faradays
+      @faraday = Faraday.new(:url => API_BASE_URL) do |builder|
+        builder.use Dailymotion::FaradayMiddleware::OAuth2, @options[:token]
         builder.use Faraday::Response::Logger
+        builder.adapter Faraday.default_adapter
+
+        builder.use ::FaradayMiddleware::Mashify
+        builder.use ::FaradayMiddleware::ParseJson
+      end
+
+      @faraday_post = Faraday.new do |builder|
+        builder.use Faraday::Request::Multipart
+        builder.use Faraday::Request::UrlEncoded
+
         builder.adapter Faraday.default_adapter
 
         builder.use ::FaradayMiddleware::Mashify
@@ -41,19 +58,18 @@ module Dailymotion
     end
 
     def upload_file(filepath, url)
-      faraday = Faraday.new do |builder|
-        builder.use Faraday::Request::Multipart
-        builder.use Faraday::Request::UrlEncoded
-
-        builder.adapter Faraday.default_adapter
-
-        builder.use ::FaradayMiddleware::Mashify
-        builder.use ::FaradayMiddleware::ParseJson
-      end
-
       payload = { :file => Faraday::UploadIO.new(filepath, "application/octet-stream") }
 
-      faraday.post url, payload
+      @faraday_post.post url, payload
+    end
+
+    def refresh_token!
+      raise StandardError, "client_id, client_secret and refresh_token in options hash are mandatory" unless options[:client_id] && options[:client_secret] && options[:refresh_token]
+
+      refresh_request = @faraday_post.post "#{API_BASE_URL}/oauth/token", { grant_type: "refresh_token", client_id: @options[:client_id], client_secret: @options[:client_secret], refresh_token: @options[:refresh_token] }
+      @options[:token] = refresh_request.body.access_token
+
+      set_faradays
     end
   end
 end

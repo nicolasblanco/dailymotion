@@ -26,7 +26,7 @@ Or install it yourself as:
 
 Get the list of the authenticated user videos:
 
-    daily_api = Dailymotion::API.new("API_TOKEN")
+    daily_api = Dailymotion::API.new(token: "API_TOKEN")
     resp = daily_api.get_connections("user", "me", "videos")
 
     resp.body
@@ -46,6 +46,13 @@ Then send a file to this URL, for example:
 Then post the video to Dailymotion :
 
     req = daily_api.post_video(uploaded_file_url)
+
+## Refresh the access token
+
+NOTE : in order to refresh the access token, you need to initialize or populate the options hash with client_id, client_secret and refresh_token.
+
+    daily_api = Dailymotion::API.new(client_id: "12345678", client_secret: "pipomolo", refresh_token: "blablabla")
+    daily_api.refresh_token!
 
 ## Contributing
 
